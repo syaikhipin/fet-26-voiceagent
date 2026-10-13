@@ -1,0 +1,4 @@
+# Runtime dependencies for the experiment suite and figure generation.
+# Verified with Python 3.12.2.
+numpy==1.26.4
+matplotlib==3.9.0

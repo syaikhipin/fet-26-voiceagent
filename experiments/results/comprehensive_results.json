@@ -1,0 +1,585 @@
+{
+  "metadata": {
+    "timestamp": "2026-01-14T06:06:24.876048",
+    "python_version": "3.12.2 | packaged by conda-forge | (main, Feb 16 2024, 20:54:21) [Clang 16.0.6 ]",
+    "total_runtime_seconds": 740.5293490886688
+  },
+  "verifiable_cache": {
+    "description": "Tests Merkle proof generation and verification overhead",
+    "metrics": {
+      "put_latency_ms": {
+        "mean": 0.37082338333129883,
+        "max": 0.7700920104980469
+      },
+      "get_verified_latency_ms": {
+        "mean": 0.004705667495727539,
+        "max": 0.03719329833984375
+      },
+      "get_unverified_latency_ms": {
+        "mean": 0.00018167495727539062,
+        "max": 0.0021457672119140625
+      },
+      "verification_overhead_ms": 0.0045239925384521484,
+      "cache_stats": {
+        "hits": 2000,
+        "misses": 0,
+        "verifications_passed": 1000,
+        "verifications_failed": 0,
+        "hit_rate": 1.0,
+        "size": 500,
+        "capacity": 1000
+      }
+    }
+  },
+  "cache_policies": {
+    "description": "Compares LRU, LFU, ARC, and Adaptive TTL policies",
+    "policies": {
+      "lru": {
+        "hit_rate": 0.8368,
+        "evictions": 816,
+        "throughput_qps": 12023.90617331517,
+        "latency": {
+          "count": 5000,
+          "mean": 0.00058441162109375,
+          "std": 0.0006950757636322058,
+          "p50": 0.0007152557373046875,
+          "p95": 0.0011920928955078125,
+          "p99": 0.00286102294921875,
+          "min": 0.0,
+          "max": 0.010967254638671875
+        }
+      },
+      "lfu": {
+        "hit_rate": 0.8594,
+        "evictions": 703,
+        "throughput_qps": 11968.112456720746,
+        "latency": {
+          "count": 5000,
+          "mean": 0.0010204315185546875,
+          "std": 0.0009796473100768803,
+          "p50": 0.00095367431640625,
+          "p95": 0.0021457672119140625,
+          "p99": 0.0050067901611328125,
+          "min": 0.0,
+          "max": 0.023126602172851562
+        }
+      },
+      "arc": {
+        "hit_rate": 0.8548,
+        "evictions": 726,
+        "throughput_qps": 12077.989244054455,
+        "latency": {
+          "count": 5000,
+          "mean": 0.0006540775299072266,
+          "std": 0.0007452978062055165,
+          "p50": 0.0007152557373046875,
+          "p95": 0.0021457672119140625,
+          "p99": 0.0030994415283203125,
+          "min": 0.0,
+          "max": 0.008821487426757812
+        }
+      },
+      "adaptive": {
+        "hit_rate": 0.8482,
+        "evictions": 759,
+        "throughput_qps": 11476.522444360413,
+        "latency": {
+          "count": 5000,
+          "mean": 0.004589891433715821,
+          "std": 0.002598293851343792,
+          "p50": 0.0040531158447265625,
+          "p95": 0.007867813110351562,
+          "p99": 0.010013580322265625,
+          "min": 0.0007152557373046875,
+          "max": 0.06198883056640625
+        }
+      }
+    }
+  },
+  "invalidation": {
+    "description": "Compares write-triggered invalidation vs fixed TTL",
+    "strategies": {
+      "fixed_ttl": {
+        "hit_rate": 0.8,
+        "potential_stale_reads": 50,
+        "blockchain_calls": 100
+      },
+      "write_triggered": {
+        "hit_rate": 0.766,
+        "invalidations": 42,
+        "incremental_updates": 0,
+        "stale_reads": 0
+      }
+    }
+  },
+  "baselines": {
+    "description": "Comparison with The Graph, materialized views, database mirror",
+    "systems": {
+      "DirectBlockchain": {
+        "name": "DirectBlockchain",
+        "query_count": 500,
+        "blockchain_calls": 500,
+        "avg_latency_ms": 53.082398891448975,
+        "cache_hit_rate": 0.0,
+        "total_time": 26.62223982810974,
+        "throughput": 18.78128974978517
+      },
+      "TheGraphIndexer": {
+        "name": "TheGraphIndexer",
+        "query_count": 500,
+        "index_operations": 800,
+        "indexed_events": 800,
+        "avg_latency_ms": 1.3566937446594238,
+        "last_indexed_block": 400,
+        "total_time": 0.706575870513916,
+        "throughput": 707.6380907776166
+      },
+      "MaterializedViews": {
+        "name": "MaterializedViews",
+        "query_count": 500,
+        "view_updates": 400,
+        "products_tracked": 100,
+        "farms_tracked": 20,
+        "avg_latency_ms": 0.579500675201416,
+        "total_time": 0.3057088851928711,
+        "throughput": 1635.5429109773863
+      },
+      "DatabaseMirror": {
+        "name": "DatabaseMirror",
+        "query_count": 500,
+        "insert_count": 800,
+        "stored_events": 400,
+        "avg_latency_ms": 0.022978782653808594,
+        "total_time": 0.020558834075927734,
+        "throughput": 24320.445320654064
+      },
+      "MCPCacheLayer": {
+        "name": "MCPCacheLayer",
+        "query_count": 500,
+        "cache_hits": 424,
+        "cache_misses": 76,
+        "cache_hit_rate": 0.848,
+        "blockchain_calls": 76,
+        "avg_latency_ms": 8.30310344696045,
+        "total_time": 4.176206827163696,
+        "throughput": 119.72587103392553
+      }
+    }
+  },
+  "sensitivity": {
+    "ttl_sensitivity": {
+      "30": {
+        "ttl": 30,
+        "hit_rate": 0.846,
+        "avg_latency_ms": 8.283038139343262,
+        "latency_stats": {
+          "count": 500,
+          "mean": 8.284897804260254,
+          "std": 19.453714840363634,
+          "p50": 0.15115737915039062,
+          "p95": 56.815147399902344,
+          "p99": 67.78287887573242,
+          "min": 0.13208389282226562,
+          "max": 78.4609317779541
+        },
+        "blockchain_calls": 77
+      },
+      "60": {
+        "ttl": 60,
+        "hit_rate": 0.848,
+        "avg_latency_ms": 8.211471557617188,
+        "latency_stats": {
+          "count": 500,
+          "mean": 8.213767051696777,
+          "std": 19.34774361652087,
+          "p50": 0.1552104949951172,
+          "p95": 55.890798568725586,
+          "p99": 67.48104095458984,
+          "min": 0.13184547424316406,
+          "max": 80.48605918884277
+        },
+        "blockchain_calls": 76
+      },
+      "300": {
+        "ttl": 300,
+        "hit_rate": 0.844,
+        "avg_latency_ms": 8.235536575317383,
+        "latency_stats": {
+          "count": 500,
+          "mean": 8.237001419067383,
+          "std": 19.241914166704014,
+          "p50": 0.13899803161621094,
+          "p95": 55.41086196899414,
+          "p99": 71.30694389343262,
+          "min": 0.12803077697753906,
+          "max": 77.77690887451172
+        },
+        "blockchain_calls": 78
+      },
+      "600": {
+        "ttl": 600,
+        "hit_rate": 0.876,
+        "avg_latency_ms": 6.334151744842529,
+        "latency_stats": {
+          "count": 500,
+          "mean": 6.336211204528809,
+          "std": 16.848415443868436,
+          "p50": 0.17189979553222656,
+          "p95": 54.208993911743164,
+          "p99": 65.92607498168945,
+          "min": 0.1380443572998047,
+          "max": 69.57292556762695
+        },
+        "blockchain_calls": 62
+      }
+    },
+    "cache_size_sensitivity": {
+      "100": {
+        "cache_size": 100,
+        "hit_rate": 0.844,
+        "avg_latency_ms": 8.538437843322754,
+        "blockchain_calls": 78
+      },
+      "500": {
+        "cache_size": 500,
+        "hit_rate": 0.852,
+        "avg_latency_ms": 7.80621862411499,
+        "blockchain_calls": 74
+      },
+      "1000": {
+        "cache_size": 1000,
+        "hit_rate": 0.854,
+        "avg_latency_ms": 8.026043891906738,
+        "blockchain_calls": 73
+      },
+      "2000": {
+        "cache_size": 2000,
+        "hit_rate": 0.86,
+        "avg_latency_ms": 7.474782943725586,
+        "blockchain_calls": 70
+      }
+    },
+    "zipf_skew_sensitivity": {
+      "0.8": {
+        "zipf_skew": 0.8,
+        "hit_rate": 0.814,
+        "avg_latency_ms": 9.886918067932129,
+        "blockchain_calls": 93
+      },
+      "1.2": {
+        "zipf_skew": 1.2,
+        "hit_rate": 0.852,
+        "avg_latency_ms": 8.24531364440918,
+        "blockchain_calls": 74
+      },
+      "1.5": {
+        "zipf_skew": 1.5,
+        "hit_rate": 0.894,
+        "avg_latency_ms": 6.030581951141357,
+        "blockchain_calls": 53
+      }
+    },
+    "cold_start": {
+      "hit_rate_progression": [
+        {
+          "query_number": 50,
+          "hit_rate": 0.54
+        },
+        {
+          "query_number": 100,
+          "hit_rate": 0.74
+        },
+        {
+          "query_number": 150,
+          "hit_rate": 0.84
+        },
+        {
+          "query_number": 200,
+          "hit_rate": 0.86
+        },
+        {
+          "query_number": 250,
+          "hit_rate": 0.94
+        },
+        {
+          "query_number": 300,
+          "hit_rate": 0.92
+        },
+        {
+          "query_number": 350,
+          "hit_rate": 0.86
+        },
+        {
+          "query_number": 400,
+          "hit_rate": 0.98
+        },
+        {
+          "query_number": 450,
+          "hit_rate": 1.0
+        },
+        {
+          "query_number": 500,
+          "hit_rate": 0.98
+        }
+      ],
+      "latency_progression": [
+        {
+          "query_number": 50,
+          "avg_latency_ms": 49.166202545166016
+        },
+        {
+          "query_number": 100,
+          "avg_latency_ms": 0.1399517059326172
+        },
+        {
+          "query_number": 150,
+          "avg_latency_ms": 0.23031234741210938
+        },
+        {
+          "query_number": 200,
+          "avg_latency_ms": 0.13589859008789062
+        },
+        {
+          "query_number": 250,
+          "avg_latency_ms": 0.1709461212158203
+        },
+        {
+          "query_number": 300,
+          "avg_latency_ms": 0.13375282287597656
+        },
+        {
+          "query_number": 350,
+          "avg_latency_ms": 0.14710426330566406
+        },
+        {
+          "query_number": 400,
+          "avg_latency_ms": 0.1499652862548828
+        },
+        {
+          "query_number": 450,
+          "avg_latency_ms": 0.1361370086669922
+        },
+        {
+          "query_number": 500,
+          "avg_latency_ms": 0.13399124145507812
+        }
+      ],
+      "final_stats": {
+        "name": "MCPCacheLayer",
+        "query_count": 500,
+        "cache_hits": 433,
+        "cache_misses": 67,
+        "cache_hit_rate": 0.866,
+        "blockchain_calls": 67,
+        "avg_latency_ms": 7.26772403717041
+      }
+    },
+    "latency_sweep": {
+      "25": {
+        "blockchain_latency_ms": 25,
+        "direct_latency": {
+          "count": 200,
+          "mean": 27.713948488235474,
+          "std": 10.033192046776866,
+          "p50": 28.069019317626953,
+          "p95": 43.33901405334473,
+          "p99": 52.779197692871094,
+          "min": 5.734920501708984,
+          "max": 63.033103942871094
+        },
+        "cached_latency": {
+          "count": 200,
+          "mean": 6.433809995651245,
+          "std": 13.519926757162514,
+          "p50": 0.1399517059326172,
+          "p95": 37.8570556640625,
+          "p99": 56.887149810791016,
+          "min": 0.1289844512939453,
+          "max": 62.42704391479492
+        },
+        "speedup": 4.3075484832421145,
+        "cache_hit_rate": 0.795
+      },
+      "50": {
+        "blockchain_latency_ms": 50,
+        "direct_latency": {
+          "count": 200,
+          "mean": 53.886849880218506,
+          "std": 9.501547056443489,
+          "p50": 53.73096466064453,
+          "p95": 69.59414482116699,
+          "p99": 76.62010192871094,
+          "min": 26.383161544799805,
+          "max": 83.94026756286621
+        },
+        "cached_latency": {
+          "count": 200,
+          "mean": 13.166297674179077,
+          "std": 23.41275175660836,
+          "p50": 0.1690387725830078,
+          "p95": 62.74771690368652,
+          "p99": 71.24185562133789,
+          "min": 0.13184547424316406,
+          "max": 72.73006439208984
+        },
+        "speedup": 4.092786842112649,
+        "cache_hit_rate": 0.755
+      },
+      "100": {
+        "blockchain_latency_ms": 100,
+        "direct_latency": {
+          "count": 200,
+          "mean": 103.50663542747498,
+          "std": 11.457355925922595,
+          "p50": 102.60415077209473,
+          "p95": 124.09710884094238,
+          "p99": 131.93702697753906,
+          "min": 74.16200637817383,
+          "max": 134.16123390197754
+        },
+        "cached_latency": {
+          "count": 200,
+          "mean": 27.19365358352661,
+          "std": 45.96107691651619,
+          "p50": 0.16880035400390625,
+          "p95": 114.07804489135742,
+          "p99": 117.96903610229492,
+          "min": 0.13208389282226562,
+          "max": 118.35002899169922
+        },
+        "speedup": 3.806279105143021,
+        "cache_hit_rate": 0.74
+      },
+      "200": {
+        "blockchain_latency_ms": 200,
+        "direct_latency": {
+          "count": 200,
+          "mean": 202.84478187561035,
+          "std": 9.68561361248366,
+          "p50": 202.1939754486084,
+          "p95": 218.92023086547852,
+          "p99": 229.41184043884277,
+          "min": 167.1621799468994,
+          "max": 231.9180965423584
+        },
+        "cached_latency": {
+          "count": 200,
+          "mean": 52.7742338180542,
+          "std": 89.09132901107292,
+          "p50": 0.17499923706054688,
+          "p95": 210.34908294677734,
+          "p99": 220.53003311157227,
+          "min": 0.13184547424316406,
+          "max": 226.7448902130127
+        },
+        "speedup": 3.8436329094789556,
+        "cache_hit_rate": 0.74
+      }
+    }
+  },
+  "concurrency": {
+    "description": "Throughput and latency under concurrent load",
+    "results": {
+      "1": {
+        "threads": 1,
+        "total_queries": 100,
+        "elapsed_seconds": 1.955796241760254,
+        "throughput_qps": 51.13007064069112,
+        "latency": {
+          "count": 100,
+          "mean": 19.35330629348755,
+          "std": 28.203248198212904,
+          "p50": 0.2167224884033203,
+          "p95": 66.74599647521973,
+          "p99": 91.53103828430176,
+          "min": 0.15592575073242188,
+          "max": 91.53103828430176
+        }
+      },
+      "2": {
+        "threads": 2,
+        "total_queries": 200,
+        "elapsed_seconds": 1.4540228843688965,
+        "throughput_qps": 137.54941696588767,
+        "latency": {
+          "count": 200,
+          "mean": 12.59475827217102,
+          "std": 22.84826095291045,
+          "p50": 0.17499923706054688,
+          "p95": 59.82685089111328,
+          "p99": 70.23096084594727,
+          "min": 0.1430511474609375,
+          "max": 73.33898544311523
+        }
+      },
+      "4": {
+        "threads": 4,
+        "total_queries": 400,
+        "elapsed_seconds": 1.269038200378418,
+        "throughput_qps": 315.199337483082,
+        "latency": {
+          "count": 400,
+          "mean": 11.373555064201355,
+          "std": 23.123568434944406,
+          "p50": 0.18095970153808594,
+          "p95": 65.16695022583008,
+          "p99": 71.3510513305664,
+          "min": 0.11706352233886719,
+          "max": 81.96783065795898
+        }
+      },
+      "8": {
+        "threads": 8,
+        "total_queries": 800,
+        "elapsed_seconds": 0.8380022048950195,
+        "throughput_qps": 954.651426126283,
+        "latency": {
+          "count": 800,
+          "mean": 7.464803755283356,
+          "std": 19.288856185191143,
+          "p50": 0.164031982421875,
+          "p95": 59.37600135803223,
+          "p99": 71.79498672485352,
+          "min": 0.1289844512939453,
+          "max": 82.16500282287598
+        }
+      },
+      "16": {
+        "threads": 16,
+        "total_queries": 1600,
+        "elapsed_seconds": 0.5574860572814941,
+        "throughput_qps": 2870.0269344890617,
+        "latency": {
+          "count": 1600,
+          "mean": 4.996168613433838,
+          "std": 15.731227669250526,
+          "p50": 0.164031982421875,
+          "p95": 52.66618728637695,
+          "p99": 67.42501258850098,
+          "min": 0.11610984802246094,
+          "max": 77.5611400604248
+        }
+      }
+    }
+  },
+  "access_control": {
+    "description": "Overhead of access control and field filtering",
+    "metrics": {
+      "owner_access_ms": 0.006832599639892578,
+      "partner_access_ms": 0.006892681121826172,
+      "regulator_access_ms": 0.006491184234619141,
+      "access_control_overhead_ms": 6.008148193359375e-05,
+      "cache_stats": {
+        "hits": 1500,
+        "misses": 0,
+        "access_denied": 0,
+        "filtered_fields": 1500,
+        "hit_rate": 1.0,
+        "tenant_count": 1,
+        "total_entries": 200,
+        "shared_entries": 0
+      },
+      "audit_log_entries": 1503
+    }
+  }
+}
